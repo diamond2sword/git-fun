@@ -27,7 +27,7 @@ declare_strings () {
 	SSH_KEY_PASSPHRASE_FILE="$HOME/.ssh-key-passphrase.txt"
 	{
 		file="$SSH_KEY_PASSPHRASE_FILE"
-		if ! [ -d "$file" ]; then
+		if ! [ -f "$file" ]; then
 			echo -en "No passphrase file found.\nCreate passphrase:"
 			read -r passphrase 
 			echo "$passphrase" > "$file"
