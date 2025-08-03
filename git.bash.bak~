@@ -98,10 +98,10 @@ declare_git_commands () {
 		curl -LJ "https://raw.githubusercontent.com/$GH_NAME/$REPO_NAME/$BRANCH_NAME/$THIS_FILE_NAME" -o "$update_file"
 		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
 		mv "$update_file" "$THIS_FILE_NAME"
-		chmod +x "$THIS_FILE_NAME"
 	}
 
 	make_git_bash () {
+		goto "$REPO_PATH"
 		branch_name="$(git rev-parse --abbrev-ref HEAD)"
 		git rev-parse --show-toplevel
 	}

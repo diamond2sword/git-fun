@@ -102,6 +102,7 @@ declare_git_commands () {
 	}
 
 	make_git_bash () {
+		goto "$REPO_PATH"
 		branch_name="$(git rev-parse --abbrev-ref HEAD)"
 		git rev-parse --show-toplevel
 	}
