@@ -10,13 +10,13 @@ main () (
 )
 
 declare_strings () {
+	COMMAND_PATH="$(pwd)"
 	REPO_NAME="git-fun"
 	BRANCH_NAME="master"
 	GH_EMAIL="diamond2sword@gmail.com"
 	GH_NAME="diamond2sword"
 	DEFAULT_GIT_COMMAND_NAME="push"
 	THIS_FILE_NAME="git.bash"
-	PROJECT_NAME="project"
 	SSH_DIR_NAME=".ssh"
 	SSH_KEY_FILE_NAME="id_ed25519"
 	ROOT_PATH="$HOME"
@@ -102,8 +102,19 @@ declare_git_commands () {
 	}
 
 	make_git_bash () {
-		branch_name="$(git rev-parse --abbrev-ref HEAD)"
-		git rev-parse --show-toplevel
+		goto "$COMMAND_PATH"
+		repo_path="$(git rev-parse --show-toplevel)"
+		goto "$repo_path"
+		branch_name="$(basename $(git symbolic-ref HEAD))"
+		gh_name="$(git config user.name)"
+		gh_email="$(git config user.email)"
+		update_file=$THIS_FILE_NAME.new
+		
+		curl -LJ "https://raw.githubusercontent.com/$GH_NAME/$REPO_NAME/$BRANCH_NAME/$THIS_FILE_NAME" -o "$update_file"
+		sed -in "s/REPO_NAME=\".*\"/REPO_NAME=\"$repo_name\"/" "$update_file"
+		sed -in "s/BRANCH_NAME=\".*\"/BRANCH_NAME=\"$branch_name\"/" "$update_file"
+		sed -in "s/GH_NAME=\".*\"/GH_NAME=\"$gh_name\"/" "$update_file"
+		sed -in "s/GH_EMAIL=\".*\"/GH_EMAIL=\"$gh_email\"/" "$update_file"
 	}
 
 	# install_git_bash_to_repo () {
