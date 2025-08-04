@@ -10,7 +10,7 @@ main () (
 )
 
 declare_strings () {
-	CMD_PWD=$(pwd)
+	COMMAND_PATH="$(pwd)"
 	REPO_NAME="git-fun"
 	BRANCH_NAME="master"
 	GH_EMAIL="diamond2sword@gmail.com"
@@ -93,8 +93,8 @@ declare_git_commands () {
 	}
  
 	update_git_bash () {
-		goto "$REPO_PATH"
 		update_file=$THIS_FILE_NAME.new
+		goto "$REPO_PATH"
 		curl -LJ "https://raw.githubusercontent.com/$GH_NAME/$REPO_NAME/$BRANCH_NAME/$THIS_FILE_NAME" -o "$update_file"
 		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
 		mv "$update_file" "$THIS_FILE_NAME"
@@ -102,23 +102,20 @@ declare_git_commands () {
 	}
 
 	make_git_bash () {
-		update_git_bash
-		goto "$CMD_PWD"
-		repo_path="$(git rev-parse --show-toplevel)" &>/dev/null
+		goto "$COMMAND_PATH"
+		repo_path="$(git rev-parse --show-toplevel)"
+		repo_name="$(basename $(git config remote.origin.url))"
 		goto "$repo_path"
-		repo_name=$(basename $(git config --get remote.origin.url))
-		repo_name=$(basename $(git config --get remote.origin.url))
-		gh_name=$(dirname $(git config --get remote.origin.url | cut -d':' -f2))
-		gh_email=$(git config user.email)
-		branch_name="$(git rev-parse --abbrev-ref HEAD)"
-		update_file="$THIS_FILE_NAME.new"
-		cp "$REPO_PATH/$THIS_FILE_NAME" "$update_file"
+		branch_name="$(basename $(git symbolic-ref HEAD))"
+		gh_name="$(git config user.name)"
+		gh_email="$(git config user.email)"
+		update_file=$THIS_FILE_NAME.new
+		
+		curl -LJ "https://raw.githubusercontent.com/$GH_NAME/$REPO_NAME/$BRANCH_NAME/$THIS_FILE_NAME" -o "$update_file"
 		sed -in "s/REPO_NAME=\".*\"/REPO_NAME=\"$repo_name\"/" "$update_file"
-		sed -in "s/BRANCH_NAME=\".*\"/BRANCH_NAME=\"$repo_name\"/" "$update_file"
+		sed -in "s/BRANCH_NAME=\".*\"/BRANCH_NAME=\"$branch_name\"/" "$update_file"
 		sed -in "s/GH_NAME=\".*\"/GH_NAME=\"$gh_name\"/" "$update_file"
 		sed -in "s/GH_EMAIL=\".*\"/GH_EMAIL=\"$gh_email\"/" "$update_file"
-		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
-		mv "$update_file" "$THIS_FILE_NAME"
 	}
 
 	# install_git_bash_to_repo () {
