@@ -102,20 +102,28 @@ declare_git_commands () {
 	}
 
 	make_git_bash () {
+		if ping -c 1 google.com &> /dev/null; then
+			update_git_bash
+		fi
 		goto "$COMMAND_PATH"
 		repo_path="$(git rev-parse --show-toplevel)"
-		repo_name="$(basename $(git config remote.origin.url))"
+		repo_name="$(basename $(git config remote.origin.url) | cut -d. -f1)"
 		goto "$repo_path"
 		branch_name="$(basename $(git symbolic-ref HEAD))"
 		gh_name="$(git config user.name)"
 		gh_email="$(git config user.email)"
 		update_file=$THIS_FILE_NAME.new
 		
-		curl -LJ "https://raw.githubusercontent.com/$GH_NAME/$REPO_NAME/$BRANCH_NAME/$THIS_FILE_NAME" -o "$update_file"
+		cp "$REPO_PATH/$THIS_FILE_NAME" "$update_file"
 		sed -in "s/REPO_NAME=\".*\"/REPO_NAME=\"$repo_name\"/" "$update_file"
 		sed -in "s/BRANCH_NAME=\".*\"/BRANCH_NAME=\"$branch_name\"/" "$update_file"
 		sed -in "s/GH_NAME=\".*\"/GH_NAME=\"$gh_name\"/" "$update_file"
 		sed -in "s/GH_EMAIL=\".*\"/GH_EMAIL=\"$gh_email\"/" "$update_file"
+		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
+		mv "$update_file" "$THIS_FILE_NAME"
+
+		sed -i "/MAKE_GIT_BASH/d" ".gitignore"
+		echo "git.bash # MAKE_GIT_BASH" >> ".gitignore"
 	}
 
 	# install_git_bash_to_repo () {
