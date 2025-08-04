@@ -104,6 +104,7 @@ declare_git_commands () {
 	make_git_bash () {
 		goto "$COMMAND_PATH"
 		repo_path="$(git rev-parse --show-toplevel)"
+		repo_name="$(dirname $(git config remote.origin.url | cut -d: -f2))"
 		goto "$repo_path"
 		branch_name="$(basename $(git symbolic-ref HEAD))"
 		gh_name="$(git config user.name)"
