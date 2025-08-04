@@ -119,11 +119,15 @@ declare_git_commands () {
 		sed -in "s/BRANCH_NAME=\".*\"/BRANCH_NAME=\"$branch_name\"/" "$update_file"
 		sed -in "s/GH_NAME=\".*\"/GH_NAME=\"$gh_name\"/" "$update_file"
 		sed -in "s/GH_EMAIL=\".*\"/GH_EMAIL=\"$gh_email\"/" "$update_file"
-		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
+		[ -f "$THIS_FILE_NAME" ] && {
+	 		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
+		}
 		mv "$update_file" "$THIS_FILE_NAME"
-
-		sed -i "/MAKE_GIT_BASH/d" ".gitignore"
-		echo "git.bash # MAKE_GIT_BASH" >> ".gitignore"
+		
+		[ -f .gitignore ] && {
+			sed -i "/MAKE_GIT_BASH/d" ".gitignore"
+		}
+		echo "git.bash* # MAKE_GIT_BASH" >> ".gitignore"
 	}
 
 	# install_git_bash_to_repo () {
