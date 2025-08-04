@@ -124,7 +124,7 @@ declare_git_commands () {
 		}
 		mv "$update_file" "$THIS_FILE_NAME"
 		
-		if ! [[ "$(cat .gitignore)" =~ ^git\.bash\*$ ]]; then
+		if ! [[ "$(cat .gitignore)" =~ ^git.bash\*$ ]]; then
 			echo not ignored
 			echo -e "git.bash*" >> ".gitignore"
 		fi
