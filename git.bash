@@ -125,7 +125,7 @@ declare_git_commands () {
 		mv "$update_file" "$THIS_FILE_NAME"
 		
 		[ -f .gitignore ] && {
-			sed -iz "/\n#MAKE_GIT_BASH/d" ".gitignore"
+			sed -iz "/[^\n]*\n#MAKE_GIT_BASH/d" ".gitignore"
 		}
 		echo -e "git.bash*\n#MAKE_GIT_BASH" >> ".gitignore"
 	}
