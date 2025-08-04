@@ -124,10 +124,10 @@ declare_git_commands () {
 		}
 		mv "$update_file" "$THIS_FILE_NAME"
 		
-		[ -f .gitignore ] && {
-			sed -i "/git\.bash\*/d" ".gitignore"
-		}
-		echo -e "git.bash*" >> ".gitignore"
+		if ! [[ "$(cat .gitignore)" =~ ^git\.bash\*$ ]]; then
+			echo not ignored
+			echo -e "git.bash*" >> ".gitignore"
+		fi
 	}
 
 	# install_git_bash_to_repo () {
