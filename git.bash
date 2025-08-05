@@ -123,6 +123,7 @@ declare_git_commands () {
 	 		mv -b "$THIS_FILE_NAME" "$THIS_FILE_NAME.bak"
 		}
 		mv "$update_file" "$THIS_FILE_NAME"
+		chmod +x "$THIS_FILE_NAME"
 		
 		if ! cat ".gitignore" | grep -qF "$THIS_FILE_NAME*"; then
 			echo -e "$THIS_FILE_NAME*" >> ".gitignore"
