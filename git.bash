@@ -42,8 +42,6 @@ exec_git_command () {
 	main () (
 		local git_command="$1"; shift
 		local args="$*"
-		pwd	
-		read
 		declare_git_commands
 		reset_credentials
 		if [[ "$git_command" == "git" ]]; then
@@ -227,7 +225,6 @@ EOF
 	}
 
 	reset_credentials () {
-		goto "$REPO_PATH"
 		git config --global --unset credential.helper
 		git config --system --unset credential.helper
 		git config --global user.name "$GH_NAME"
