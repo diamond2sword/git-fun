@@ -236,8 +236,8 @@ EOF
 	push () {
 		[[ $1 ]] && COMMIT_NAME="$1"
 		repo_path="$(git rev-parse --show-toplevel 2>/dev/null || echo none)"
-		if [[ "$repo_path" == "none" ]]; then
-			bash "$repo_path" push "$@"
+		if ! $2 && [[ "$repo_path" != "none" ]]; then
+			bash "$repo_path/$THIS_FILE_NAME" push "$@" true
 			return
 		fi
 		goto "$REPO_PATH"
