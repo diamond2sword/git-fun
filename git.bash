@@ -235,6 +235,11 @@ EOF
 
 	push () {
 		[[ $1 ]] && COMMIT_NAME="$1"
+		repo_path="$(git rev-parse --show-toplevel 2>/dev/null || echo none)"
+		if [[ "$repo_path" == "none" ]]; then
+			bash "$repo_path" push "$@"
+			return
+		fi
 		goto "$REPO_PATH"
 		git add .
 		git commit -m "$COMMIT_NAME"
