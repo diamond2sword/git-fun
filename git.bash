@@ -42,7 +42,8 @@ exec_git_command () {
 	main () (
 		local git_command="$1"; shift
 		local args="$*"
-
+		pwd	
+		read
 		declare_git_commands
 		reset_credentials
 		if [[ "$git_command" == "git" ]]; then
