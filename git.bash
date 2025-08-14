@@ -50,6 +50,7 @@ exec_git_command () {
 		fi	
 		echo "cmd: '$git_command $args'"
 		eval "$git_command" "$args"
+	pwd; read
 	)
 
 	is_var_set () {
