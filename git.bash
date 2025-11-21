@@ -12,7 +12,7 @@ main () (
 declare_strings () {
 	COMMAND_PATH="$(pwd)"
 	REPO_NAME="git-fun"
-	BRANCH_NAME="master"
+	BRANCH_NAME="main"
 	GH_EMAIL="diamond2sword@gmail.com"
 	GH_NAME="diamond2sword"
 	DEFAULT_GIT_COMMAND_NAME="push"
